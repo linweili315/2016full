@@ -47,6 +47,7 @@
 #include <RooDataHist.h>
 #include <RooFunctorBinding.h>
 #include <RooStats/RooStatsUtils.h>
+#include "RooBernsteinEffi.h"
 
 #include <TBenchmark.h>
 #include <time.h>
@@ -87,6 +88,7 @@ using namespace RooFit;
 // ##########################################
 // # Internal flags to control the workflow #
 // ##########################################
+#define EffV          false    //"Projection"  // choose efficiency function (Projection/Fitting) 
 #define PLOT          true  //[true= plot the results]
 #define SAVEPLOT      true   //2015-12-17
 #define MINIMIZER     "Minuit" // Minimizer type for 3D MODEL actual fit ["Minuit"; "Minuit2"]
@@ -713,8 +715,16 @@ RooAbsPdf* MakeAngWithEffPDF (unsigned int q2BinIndx, RooRealVar* y, RooRealVar*
                 // #############################
                 // # Make 3D efficiency p.d.f. #
                 // #############################
-                RooAbsPdf* EffPdf_R = Utility->ReadRTEffPDF(q2BinIndx, efftest);
-                cout << "\n[ExtractYield::MakeAngWithEffPDF]\t@@@ The efficiency function from Alessio  @@@" << endl;
+                RooAbsPdf* EffPdf_R = NULL;
+                if (EffV == true){
+                   RooAbsPdf* EffPdf_R = Utility->ReadRTEffPDF(q2BinIndx, efftest);
+                   cout << "\n[ExtractYield::MakeAngWithEffPDF]\t@@@ The efficiency function from Alessio  @@@" << endl;
+                  }
+                else {
+                   EffPdf_R =(RooAbsPdf*) Utility->GetFitReff(q2BinIndx);
+              //   RooBernsteinEffi* EffPdf_R = Utility->GetFitReff(q2BinIndx);
+                   cout << "\n[ExtractYield::MakeAngWithEffPDF]\t@@@ The efficiency function from Paolo @@@" << endl;
+                  }
                 AnglesPDF  = new RooEffProd("AngleS","Signal * Efficiency", *_AnglesPDF, *EffPdf_R); 
                 cout << "\n[ExtractYield::MakeAngWithEffPDF]\t@@@ 3D angular*efficiency p.d.f. (P-wave) @@@" << endl;
                 cout << myString.str().c_str() << endl;
@@ -982,7 +992,7 @@ void MakeDatasets (B0KstMuMuTreeContent* NTuple, unsigned int FitType, int Sampl
       NTuple->ClearNTuple( SampleType );
       NTuple->SetBranchAddresses(theTree, SampleType);
       int nEntries = theTree->GetEntries();
-      for (int entry = 0;  entry <  nEntries; entry++)
+      for (int entry = 0;  entry < 0.01* nEntries; entry++)
 	{
 	  theTree->GetEntry(entry);
 	 
@@ -1575,7 +1585,7 @@ int main(int argc, char** argv)
           // # Select fit type #
           // ###################
           if (
-              (FitType == 106) || (FitType == 206)
+              (FitType == 106) || (FitType == 206) 
              )
             {
               NtplFile = new TFile(fileName.c_str(),"READ");

@@ -6,8 +6,7 @@ if [ "$#" -ne 2 ] ; then
 else
     export ANALYPATH=$1
   
-    export DATAYEAR=2012
-#    export DATADIR=/nfs/data37/cms/dinardo/Data"$DATAYEAR"B0KstMuMuResults
+    export DATAYEAR=2016
     export DATADIR=/afs/cern.ch/user/l/llinwei/work2/B0KstMuMufull/B0KstMuMu2016/
     echo @@@ Analysis environment variable: $ANALYPATH @@@
     echo @@@ Directory with data: $DATADIR @@@

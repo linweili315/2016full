@@ -38,7 +38,7 @@ $(CLASSDICT2): $(CLASS2).h $(CLASS2)LinkDef.h
 
 
 ExtractYield : $(SOURCEDIR) $(INCLUDEDIR) ExtractYield.cc
-	$(CXX) $(CXXFLAGS) -o $@  $(ROOFITFLAGS) $(INCLUDES) $(SOURCES)  -D"ROOFIT" $@.cc
+	$(CXX) $(CXXFLAGS) -o $@  $(ROOFITFLAGS) $(INCLUDES) $(SOURCES) $(LIBS2)  -D"ROOFIT" $@.cc
 Moment : Moment.cc
 	$(CXX) $(CXXFLAG) -o $@ $(ROOTFLAGS) $(ROOFITFLAGS1)  -D"ROOFIT" $@.cc
 
