@@ -19,12 +19,6 @@
 #include <TTree.h>
 #include <RooArgSet.h>
 #include <RooRealVar.h>
-#include  <TStopwatch.h>
-#include <RooRealProxy.h>
-#include <RooCategoryProxy.h>
-#include <RooAbsCategory.h>
-
-#include  <TStopwatch.h>
 #include <RooAbsPdf.h>
 #include <RooHistPdf.h>
 #include <RooFitResult.h>
@@ -32,6 +26,7 @@
 
 #include <string>
 #include <vector>
+
 #include "B0KstMuMuTreeContent.h"
 
 
@@ -107,19 +102,12 @@ class Utils
   unsigned int GetFitParamIndx    (std::string varName);
   unsigned int GetConfigParamIndx (std::string varName);
 
-  bool PsiRejection   (double myB0Mass, double myMuMuMass, double myMuMuMassE, std::string seleType, bool B0andPsiCut = false);
-
   void   ReadGenericParam     (std::string fileName);
   bool   SetGenericParam      (std::string parName, std::string val);
   std::string GetGenericParam (std::string parName);
 
   double* MakeBinning (std::vector<double>* STLvec);
-  #if ROOFIT
-  std::string Transformer (std::string varName, bool doIt, double& varValOut, double& varValOutELo, double& varValOutEHi, RooFitResult* fitResult = NULL, RooRealVar* varValIn1 = NULL, RooRealVar* varValIn2 = NULL); 
-  void AntiTransformer (std::string varName, bool doIt, double& varValOut, double& varValOutELo, double& varValOutEHi, RooRealVar* varValIn1 = NULL, RooRealVar* varValIn2 = NULL);
-  RooAbsPdf* ReadRTEffPDF ( unsigned int q2Indx, unsigned int test);
-  RooAbsPdf* ReadWTEffPDF ( unsigned int q2Indx, unsigned int test);
-  #endif
+
   double muonMass;
   double pionMass;
   double kaonMass;
@@ -161,14 +149,6 @@ class Utils
 
   TF1* KstMassShape;
 
-  std::vector<std::string> HLTpath;
-  std::vector<double> VecHLTCutVar1;
-  std::vector<double> VecHLTCutVar2;
-  std::vector<double> VecHLTentries;
-  std::vector<std::string> TrigTable;
-
-  std::vector<double> PreCuts;
-  std::vector<double> SeleCuts;
   std::vector<std::string> GenericPars;
 
   double ProbThreshold;
